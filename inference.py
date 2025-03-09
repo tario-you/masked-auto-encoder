@@ -148,7 +148,7 @@ class MaskedAutoencoder(nn.Module):
 # -------------------------------
 
 
-def main():
+def main(input_image_path, output_image_path, checkpoint_path):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     model = MaskedAutoencoder(
@@ -164,7 +164,6 @@ def main():
         mask_ratio=0.75
     ).to(device)
 
-    checkpoint_path = "mae_checkpoint.pth"
     if os.path.exists(checkpoint_path):
         ckpt = torch.load(checkpoint_path, map_location=device)
         # If checkpoint is a dict with a "model_state_dict" key, extract it.
@@ -182,8 +181,6 @@ def main():
 
     model.eval()
 
-    input_image_path = "data/img.png"
-    output_image_path = "data/img_reconstructed.png"
     img = Image.open(input_image_path).convert("RGB")
 
     transform = transforms.Compose([
@@ -204,4 +201,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    checkpoints = ["epoch10", "epoch39", "epoch300"]
+    for i in range(5):
+        input_image_path = f"data/img{i}.png"
+        for ckpt in checkpoints:
+            output_image_path = f"data/img{i}_reconstructed_{ckpt}.png"
+            checkpoint_path = f"mae_checkpoint_{ckpt}.pth"
+            main(input_image_path, output_image_path, checkpoint_path)
