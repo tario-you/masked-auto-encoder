@@ -5,6 +5,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader
+from tqdm import tqdm
+from tqdm import trange
+
 
 # -------------------------------------------
 # CIFAR-10 Data Loading Utilities
@@ -255,6 +258,10 @@ def mae_loss(x_rec, imgs, mask, patch_size=4):
 def train_mae(model, dataloader, optimizer, device):
     model.train()
     running_loss = 0.0
+
+    progress_bar = tqdm(enumerate(dataloader),
+                        total=len(dataloader), desc="Training")
+
     for batch_idx, (imgs, _) in enumerate(dataloader):
         imgs = imgs.to(device)
         optimizer.zero_grad()
@@ -263,9 +270,14 @@ def train_mae(model, dataloader, optimizer, device):
         loss.backward()
         optimizer.step()
         running_loss += loss.item()
-        if (batch_idx + 1) % 50 == 0:
-            print(
-                f"Batch {batch_idx+1}/{len(dataloader)} - Loss: {loss.item():.4f}")
+        # if (batch_idx + 1) % 50 == 0:
+        #     print(
+        #         f"Batch {batch_idx+1}/{len(dataloader)} - Loss: {loss.item():.4f}")
+
+        # Update tqdm bar
+        progress_bar.set_postfix(loss=f"{loss.item():.4f}")
+        progress_bar.update(1)
+
     avg_loss = running_loss / len(dataloader)
     return avg_loss
 
@@ -300,7 +312,7 @@ def load_checkpoint(model, optimizer, filepath="mae_checkpoint.pth"):
 # -------------------------------------------
 if __name__ == "__main__":
     # Set device
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("mps")
 
     # Path to the CIFAR-10 folder (change this if needed)
     data_folder = "cifar-10-batches-py"
@@ -340,16 +352,8 @@ if __name__ == "__main__":
     start_epoch = load_checkpoint(
         model, optimizer, filepath="mae_checkpoint.pth")
 
-    for epoch in range(start_epoch, num_epochs):
-        avg_loss = train_mae(model, train_loader, optimizer, device)
-        print(f"Epoch {epoch+1}/{num_epochs} - Average Loss: {avg_loss:.4f}")
-
-        # Save model checkpoint
-        save_checkpoint(model, optimizer, epoch + 1,
-                        filepath="mae_checkpoint.pth")
-
     # Training loop
-    for epoch in range(num_epochs):
+    for epoch in trange(start_epoch, num_epochs, desc="Epochs"):
         avg_loss = train_mae(model, train_loader, optimizer, device)
         print(f"Epoch {epoch+1}/{num_epochs} - Average Loss: {avg_loss:.4f}")
 
