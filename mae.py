@@ -346,7 +346,7 @@ if __name__ == "__main__":
         model.parameters(), lr=1e-4, weight_decay=0.05)
 
     # Training settings
-    num_epochs = 10
+    num_epochs = 300
 
     # checks if checkpoint exists
     start_epoch = load_checkpoint(
