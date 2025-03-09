@@ -8,9 +8,13 @@ This project implements a **Masked Autoencoder (MAE)** using **PyTorch**, specif
 
 Reconstructed images at different epochs:
 
-| Ground Truth                         | Epoch 1                                                   | Epoch 10                                                   | Epoch 39                                                   |
-| ------------------------------------ | --------------------------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------- |
-| <img src="data/img.png" width="200"> | <img src="data/img_reconstructed_epoch1.png" width="200"> | <img src="data/img_reconstructed_epoch10.png" width="200"> | <img src="data/img_reconstructed_epoch39.png" width="200"> |
+| Ground Truth                          | Epoch 10                                                    | Epoch 39                                                    | Epoch 300                                                    |
+| ------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------ |
+| <img src="data/img0.png" width="200"> | <img src="data/img0_reconstructed_epoch10.png" width="200"> | <img src="data/img0_reconstructed_epoch39.png" width="200"> | <img src="data/img0_reconstructed_epoch300.png" width="200"> |
+| <img src="data/img1.png" width="200"> | <img src="data/img1_reconstructed_epoch10.png" width="200"> | <img src="data/img1_reconstructed_epoch39.png" width="200"> | <img src="data/img1_reconstructed_epoch300.png" width="200"> |
+| <img src="data/img2.png" width="200"> | <img src="data/img2_reconstructed_epoch10.png" width="200"> | <img src="data/img2_reconstructed_epoch39.png" width="200"> | <img src="data/img2_reconstructed_epoch300.png" width="200"> |
+| <img src="data/img3.png" width="200"> | <img src="data/img3_reconstructed_epoch10.png" width="200"> | <img src="data/img3_reconstructed_epoch39.png" width="200"> | <img src="data/img3_reconstructed_epoch300.png" width="200"> |
+| <img src="data/img4.png" width="200"> | <img src="data/img4_reconstructed_epoch10.png" width="200"> | <img src="data/img4_reconstructed_epoch39.png" width="200"> | <img src="data/img4_reconstructed_epoch300.png" width="200"> |
 
 The model progressively improves its ability to reconstruct missing patches as training continues.
 
